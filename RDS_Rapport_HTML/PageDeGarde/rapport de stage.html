@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Stage - Alexan Ravonneaux</title>
+    <style>
+        :root {
+            --glass: rgba(255, 255, 255, 0.25);
+            --border: rgba(255, 255, 255, 0.4);
+            --accent-red: #A3171E; 
+            --text-dark: #1a1a1a;
+        }
+
+        * { box-sizing: border-box; -webkit-print-color-adjust: exact; scroll-behavior: smooth;}
+
+        body {
+            margin: 0; padding: 0;
+            background: url('fac.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .page-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(0,31,63,0.1) 0%, rgba(0,0,0,0.6) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative; z-index: 2;
+            max-width: 1000px; margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .glass-block {
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            color: var(--text-dark);
+        }
+        
+        .glass-header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+
+        /* Front Page Elements */
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .host-logos { display: flex; align-items: center; gap: 20px; }
+        .host-logos img { height: 65px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        .header-text { text-align: right; }
+        .univ-name { font-weight: 800; font-size: 11pt; letter-spacing: 1px; text-transform: uppercase; margin: 0; }
+
+        .main-title-container {
+            text-align: center;
+            padding: 60px 40px;
+        }
+        .report-label {
+            font-size: 18pt; font-weight: 900; color: #ff6b6b;
+            text-transform: uppercase; letter-spacing: 10px; margin-bottom: 5px; display: block;
+        }
+        .univ-year { font-size: 10pt; font-weight: 400; letter-spacing: 2px; margin-bottom: 25px; display: block; opacity: 0.9; }
+        .main-title-container h1 { font-size: 32pt; font-weight: 900; margin: 0; line-height: 1.2; text-shadow: 0 2px 10px rgba(0,0,0,0.4); color: white;}
+        .survey-info { margin-top: 20px; font-size: 14pt; font-weight: 300; opacity: 0.95; font-style: italic; color: #f1f2f6;}
+
+        .bottom-badges-row { display: flex; justify-content: space-between; align-items: stretch; gap: 20px; margin-bottom: 20px;}
+        .home-logos { display: flex; align-items: center; gap: 18px; padding: 15px 25px; margin: 0; flex: 1; justify-content: center;}
+        .home-logos img { height: 45px; width: auto; object-fit: contain; }
+        .date-badge { padding: 15px 30px; font-weight: 800; font-size: 11pt; letter-spacing: 3px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; text-align: center; }
+
+        .authors-footer { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding: 25px; text-align: center;}
+        .info-box h4 { font-size: 8pt; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 8px 0; color: #ff6b6b; }
+        .info-box p { font-size: 11pt; font-weight: 600; margin: 0; }
+        .info-box span { font-weight: 300; font-size: 9pt; opacity: 0.9; display: block; margin-top: 4px; }
+
+        /* Typography for content */
+        h2 { color: var(--accent-red); border-bottom: 2px solid var(--accent-red); padding-bottom: 10px; margin-top: 0; font-size: 22pt; text-transform: uppercase; letter-spacing: 1px;}
+        h3 { color: #2c3e50; font-size: 16pt; margin-top: 30px; }
+        h4 { color: #34495e; font-size: 13pt; margin-top: 20px; }
+        p { margin-bottom: 15px; text-align: justify; font-size: 11.5pt;}
+        
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: var(--accent-red); color: white; font-weight: 600; text-transform: uppercase; font-size: 10pt; letter-spacing: 1px;}
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #fcfcfc; }
+        
+        .img-container { text-align: center; margin: 30px 0; }
+        .img-container img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border: 1px solid #ddd; }
+        .img-caption { font-size: 9pt; color: #666; margin-top: 10px; font-style: italic; }
+
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
+        .metric-card { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--accent-red);}
+        .metric-value { font-size: 28pt; font-weight: 900; color: #2c3e50; margin: 10px 0; }
+        .metric-label { font-size: 10pt; text-transform: uppercase; color: #7f8c8d; font-weight: 600; letter-spacing: 1px;}
+
+        ul, ol { margin-bottom: 15px; padding-left: 20px; font-size: 11.5pt;}
+        li { margin-bottom: 8px; }
+        
+        nav { position: sticky; top: 20px; background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 30px; z-index: 10;}
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+        nav a { text-decoration: none; color: #2c3e50; font-weight: 600; font-size: 10pt; text-transform: uppercase; transition: color 0.2s;}
+        nav a:hover { color: var(--accent-red); }
+    </style>
+</head>
+<body>
+    <div class="page-overlay"></div>
+    <div class="container">
+        <!-- HEADER / PAGE DE GARDE -->
+        <header class="glass-header">
+            <div class="host-logos">
+                <img src="logo_uaic.png" alt="Logo UAIC">
+                <img src="logo_feaa.png" alt="Logo FEAA">
+            </div>
+            <div class="header-text">
+                <p class="univ-name">Alexandru Ioan Cuza University</p>
+                <p style="font-size: 8pt; opacity: 0.8; margin: 0;">Faculty of Economics & Business Administration</p>
+            </div>
+        </header>
+
+        <div class="main-title-container glass-header">
+            <span class="report-label">Rapport de Stage</span>
+            <span class="univ-year">Année Universitaire 2025 — 2026</span>
+            <h1>Analyse Prédictive et Modélisation Statistique par Régression Logistique</h1>
+            <p class="survey-info">Exploitation des données de l'Enquête Européenne sur la Santé (EHIS) 2019</p>
+        </div>
+
+        <div class="bottom-badges-row">
+            <div class="home-logos glass-header">
+                <img src="logo_univ.png" alt="Université de Poitiers">
+                <img src="logo_iut.png" alt="IUT">
+                <img src="logo_but.png" alt="BUT Science des Données" class="logo-but">
+            </div>
+            <div class="date-badge glass-header">06 AVRIL — 12 JUIN 2026</div>
+        </div>
+        <footer class="authors-footer glass-header">
+            <div class="info-box">
+                <h4>Auteur</h4>
+                <p>Alexan Ravonneaux</p>
+                <span>BUT SD - 2ème année</span>
+            </div>
+            <div class="info-box">
+                <h4>Tuteur enseignant</h4>
+                <p>M. Abdellah Qannari</p>
+                <span>Enseignant-chercheur universitaire</span>
+            </div>
+            <div class="info-box">
+                <h4>Tuteur professionnel</h4>
+                <p>M. Dănuț-Vasile Jemna</p>
+                <span>Enseignant-chercheur universitaire</span>
+            </div>
+        </footer>
+
+        <!-- NAVIGATION -->
+        <nav>
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#contexte">1. Contexte</a></li>
+                <li><a href="#ehis">2. Enquête EHIS</a></li>
+                <li><a href="#causes">3. Causes de l'Absentéisme</a></li>
+                <li><a href="#preparation">4. Préparation des Données</a></li>
+                <li><a href="#analyse">5. Modélisation & Analyse</a></li>
+            </ul>
+        </nav>
+
+        <!-- INTRODUCTION -->
+        <section id="intro" class="glass-block">
+            <h2>Introduction</h2>
+            <p>Dans un monde professionnel en constante mutation, la préservation de la santé au travail est devenue un enjeu majeur, tant pour le bien-être des individus que pour la performance des organisations. L’absentéisme pour raisons de santé représente non seulement un coût économique significatif, mais il est aussi le symptôme de conditions de travail parfois inadaptées. C’est dans ce contexte de santé publique et de statistiques appliquées que s’inscrit mon stage de deuxième année de BUT Science des Données, réalisé au sein de l’Université Alexandru Ioan Cuza (UAIC) à Iași, en Roumanie.</p>
+            <p>Affecté au laboratoire de recherche en économie et statistiques de la Faculté d'Économie et d'Administration des Affaires (FEAA), j’ai été chargé d’exploiter la troisième vague de l’Enquête Européenne sur la Santé (EHIS 2019). Cette base de données, riche de milliers d’observations à l'échelle européenne, permet d'étudier avec une grande finesse les comportements de santé et les facteurs de risques environnementaux et professionnels.</p>
+            <p>La mission qui m'a été confiée consiste à identifier et à modéliser les facteurs qui influencent la probabilité d'absence au travail pour raisons de santé. Pour répondre à cette problématique, le choix s’est porté sur la variable d'intérêt <strong>AW1</strong> (« <em>Absent from work due to personal health problems in the past 12 months</em> »), qui constitue un indicateur direct de l'impact de la santé sur l'activité professionnelle.</p>
+            <p>L'objectif central de ce travail est de mesurer l'impact de divers facteurs (physiques, psychologiques, sociaux) sur le risque de recours à l'arrêt maladie. Pour isoler ces effets et obtenir des résultats statistiquement robustes, j'ai mis en œuvre une modélisation par <strong>régression logistique</strong>. Cette méthode permet non seulement de prédire la probabilité d'absence, mais surtout de quantifier le poids spécifique de chaque contrainte par rapport aux autres déterminants.</p>
+            <p>Ce rapport détaille ainsi la démarche suivie, de la phase critique de préparation et de nettoyage des données EHIS jusqu'à l'interprétation des résultats du modèle, en passant par l'analyse descriptive des populations concernées.</p>
+        </section>
+
+        <!-- 1. CONTEXTE ET PRESENTATION -->
+        <section id="contexte" class="glass-block">
+            <h2>1. Contexte et Présentation de la Structure d'Accueil</h2>
+            
+            <h3>1.1. Contexte national : la Roumanie, un pôle technologique en pleine ascension</h3>
+            <p>Située au carrefour de l'Europe centrale, orientale et balkanique, la Roumanie est une république membre de l'Union européenne depuis 2007 et de l'OTAN. Au-delà de son riche héritage culturel, le pays s'est imposé en deux décennies comme l'un des moteurs économiques les plus dynamiques d'Europe de l'Est.</p>
+            <p>Cette croissance est portée par un secteur technologique en pleine effervescence, souvent qualifié de « Silicon Valley de l'Europe orientale ». Bénéficiant d'infrastructures numériques performantes, la Roumanie a su attirer de nombreux centres de recherche et entreprises internationales de pointe. Ce dynamisme est soutenu par un système universitaire d'excellence qui forme une main-d’œuvre hautement qualifiée dans les domaines de l'ingénierie et de l'analyse de données.</p>
+
+            <h3>1.2. Le contexte local : Iași, pôle dynamique et européen</h3>
+            <p>Iaşi, située dans le nord-est de la Roumanie, est la deuxième ville la plus peuplée du pays avec plus de 316 000 habitants. Au-delà de son riche patrimoine culturel et religieux (ancienne capitale de la Moldavie), Iași est surtout reconnue comme un centre universitaire et économique majeur. Plus de 60 000 étudiants fréquentent les universités de la ville, dont l'Université Alexandru Ioan Cuza, l’une des plus prestigieuses du pays.</p>
+
+            <h3>1.3. L'Université Alexandru Ioan Cuza (UAIC)</h3>
+            <p>Fondée en 1860, l'UAIC est la plus ancienne institution d'enseignement supérieur de Roumanie. Forte de son prestige historique, elle accueille aujourd'hui environ 24 000 étudiants. L'UAIC se distingue par sa pluridisciplinarité, étant organisée en 15 facultés qui couvrent un large spectre allant des sciences exactes aux sciences humaines. Cette organisation en départements permet de favoriser la gestion des ressources et d'encourager les projets de recherche croisant différentes disciplines.</p>
+
+            <h3>1.4. Le Laboratoire de recherche en économie et statistiques</h3>
+            <p>Au sein de l'UAIC, j'ai été affecté à la Faculté d'Économie et d'Administration des Affaires (FEAA), et plus précisément au sein de son laboratoire de recherche en économie et statistiques. Le laboratoire se consacre au développement de modèles économétriques et statistiques appliqués aux dynamiques socio-économiques, à la production d'analyses fondées sur la donnée pour l'aide à la décision, ainsi qu'au rayonnement de la recherche académique via des publications internationales.</p>
+        </section>
+
+        <!-- 2. L'ENQUETE EHIS -->
+        <section id="ehis" class="glass-block">
+            <h2>2. L'Enquête EHIS 2019</h2>
+
+            <h3>2.1. Contexte et objectifs</h3>
+            <p>L’état de santé des Européens étant l’une des principales préoccupations des États membres, la Direction de l’information et de la recherche en santé mène depuis 2002 l’enquête européenne sur la santé (<em>European Health Interview Survey</em>, EHIS), déployée tous les 5 à 6 ans. Elle vise à fournir un état des lieux précis de la santé des populations européennes. Son objectif principal est de recueillir des données harmonisées sur l’état de santé, les recours aux soins, les déterminants de santé ainsi que les caractéristiques socio-démographiques.</p>
+
+            <h3>2.2. Méthodologie d'échantillonnage</h3>
+            <p>Afin de garantir une représentativité statistique optimale, la population cible se compose d'individus âgés de 15 ans et plus résidant dans des ménages privés. L'Institut National de Statistique a procédé à un tirage aléatoire stratifié, segmenté selon l'âge, le sexe et le milieu de résidence. Cette stratification permet de réduire significativement la variance des estimateurs et s’assure que les sous-populations sont représentées. Pour la régression logistique, il est indispensable d’avoir cet échantillon représentatif.</p>
+
+            <h3>2.3. Collecte des données et confidentialité</h3>
+            <p>Les résultats ont été majoritairement collectés par un entretien en face-à-face assisté par ordinateur (CAPI), ou par téléphone (CATI) en raison de l’épidémie de COVID-19. Toutes les données ont été recueillies de manière strictement confidentielle et anonyme. Parmi les techniques employées pour empêcher toute réidentification, on retrouve la suppression de variables d'identification directes, le regroupement par classes, le plafonnement (« top coding »), et la généralisation par recodage.</p>
+
+            <h3>2.4. Structure du questionnaire</h3>
+            <p>L'enquête repose sur un principe de standardisation des intrants. Tous les États utilisent un questionnaire de base identique, articulé autour de quatre modules fondamentaux :</p>
+            <ul>
+                <li><strong>Variables Socio-démographiques :</strong> Âge, sexe, éducation, emploi, revenu.</li>
+                <li><strong>Variables de Santé :</strong> État de santé perçu, maladies chroniques, dépression, limitations fonctionnelles.</li>
+                <li><strong>Soins de Santé :</strong> Recours aux soins hospitaliers et ambulatoires.</li>
+                <li><strong>Déterminants de la Santé :</strong> IMC, activité physique, tabagisme.</li>
+            </ul>
+        </section>
+
+        <!-- 3. CAUSES DE L'ABSENTEISME -->
+        <section id="causes" class="glass-block">
+            <h2>3. Différentes Causes de l'Absentéisme (Revue de Littérature)</h2>
+            <p>Mon analyse se dirige vers la cause de l’absentéisme au travail, défini comme l’absence temporaire d’un individu de son activité professionnelle en raison de problèmes de santé. La littérature met en évidence plusieurs dimensions clés :</p>
+            
+            <ul>
+                <li><strong>Variables sociodémographiques :</strong> Le taux d’absentéisme chez les femmes est en moyenne plus élevé que chez les hommes. Ce taux est également plus fort chez les ouvriers que chez les cadres, et s'accroît avec l'âge pour les arrêts longs.</li>
+                <li><strong>État de santé :</strong> La maladie constitue la première cause d’arrêt de travail. Les pathologies psychologiques (comme la dépression) représentent la première cause d’arrêts de longue durée. Les lombalgies et maladies chroniques sont également des facteurs aggravants prépondérants.</li>
+                <li><strong>Déterminants liés au mode de vie :</strong> L’obésité augmente significativement la probabilité de maladie. La sédentarité est directement corrélée à l’augmentation des problèmes de santé. Enfin, les contraintes biomécaniques (efforts physiques) entraînent des TMS (troubles musculo-squelettiques).</li>
+            </ul>
+        </section>
+
+        <!-- 4. PREPARATION -->
+        <section id="preparation" class="glass-block">
+            <h2>4. La Problématique et Préparation des Données</h2>
+            
+            <h3>4.1. La Problématique</h3>
+            <p><strong>Dans quelle mesure les comportements à risque (sédentarité, obésité, tabagisme) et l'état de santé globale (maladies chroniques, dépression) influencent-ils la probabilité d’avoir recours à un arrêt de travail ?</strong></p>
+            <p>Pour répondre à cette question, l'utilisation d'un modèle de <strong>régression logistique</strong> est idéale, car notre variable cible (AW1) est binaire (Oui/Non). Ce modèle permet d'estimer la probabilité d'occurrence d'un arrêt de travail en fonction des variables explicatives tout en garantissant des probabilités comprises entre 0 et 1.</p>
+
+            <h3>4.2. Sélection et Recodage des Variables</h3>
+            <p>Afin de nettoyer la base de données, un filtrage a été effectué pour ne conserver que les personnes actives occupées (MAINSTAT = 10). Les modalités non pertinentes (-1, -2, -3 correspondant aux non-réponses) ont été supprimées. La base finale, avant modélisation, comprend ainsi un échantillon épuré prêt à l'emploi.</p>
+
+            <h4>Variables Conservées et Recodage</h4>
+            <table>
+                <tr>
+                    <th>Variable</th>
+                    <th>Description Initiale</th>
+                    <th>Nouvelles Modalités (Recodage)</th>
+                </tr>
+                <tr>
+                    <td><strong>AW1 (Cible)</strong></td>
+                    <td>Absent from work due to health problems</td>
+                    <td>« Oui » / « Non »</td>
+                </tr>
+                <tr>
+                    <td><strong>SEX</strong></td>
+                    <td>Sexe du répondant</td>
+                    <td>« Homme » / « Femme »</td>
+                </tr>
+                <tr>
+                    <td><strong>AGE</strong></td>
+                    <td>Âge du répondant</td>
+                    <td>« 15-29 ans » / « 30-44 ans » / « 45-59 ans » / « 60+ ans »</td>
+                </tr>
+                <tr>
+                    <td><strong>HATLEVEL</strong></td>
+                    <td>Niveau d'éducation</td>
+                    <td>« Faible » / « Moyen » / « Élevé »</td>
+                </tr>
+                <tr>
+                    <td><strong>HS1</strong></td>
+                    <td>Santé perçue globale</td>
+                    <td>Score de 1 (Très bon) à 5 (Très mauvais)</td>
+                </tr>
+                <tr>
+                    <td><strong>CD1O / CD1H</strong></td>
+                    <td>Dépression / Maladies Chroniques</td>
+                    <td>« Oui » / « Non » (Agrégration des indicateurs)</td>
+                </tr>
+                <tr>
+                    <td><strong>BMI</strong></td>
+                    <td>Indice de Masse Corporelle (IMC)</td>
+                    <td>Valeur numérique conservée, filtrée pour supprimer les valeurs aberrantes</td>
+                </tr>
+                <tr>
+                    <td><strong>FT_PT</strong></td>
+                    <td>Temps de travail</td>
+                    <td>« Temps plein » / « Temps partiel »</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- 5. ANALYSE ET MODELISATION -->
+        <section id="analyse" class="glass-block">
+            <h2>5. Modélisation et Analyse par Régression Logistique</h2>
+
+            <h3>5.1. Plan de Datavisualisation (Analyse Exploratoire)</h3>
+            <p>Avant d'entraîner le modèle, j'ai réalisé une exploration visuelle des données nettoyées pour mieux appréhender la distribution de notre variable cible selon différents axes.</p>
+
+            <div class="img-container">
+                <img src="absenteeism_dist.png" alt="Répartition de l'Absentéisme">
+                <div class="img-caption">Figure 1: Déséquilibre naturel entre le nombre d'employés s'étant absentés ou non. Ce déséquilibre a justifié l'utilisation d'une pondération (class_weight='balanced') dans notre modèle.</div>
+            </div>
+
+            <div class="img-container">
+                <img src="absenteeism_age_sex.png" alt="Absentéisme par Âge et Sexe">
+                <div class="img-caption">Figure 2: Impact de l'âge et du sexe sur le taux d'absentéisme. On observe des variations intéressantes, notamment un absentéisme plus marqué chez les femmes.</div>
+            </div>
+
+            <div class="img-container">
+                <img src="absenteeism_health.png" alt="Absentéisme et Santé Perçue">
+                <div class="img-caption">Figure 3: Corrélation visuelle forte entre un mauvais état de santé perçu (allant vers 5) et un taux d'absentéisme très élevé.</div>
+            </div>
+
+            <div class="img-container">
+                <img src="correlation_heatmap.png" alt="Matrice de corrélation">
+                <div class="img-caption">Figure 4: Matrice des corrélations des variables avec la variable cible. La santé perçue et les maladies chroniques y apparaissent comme les plus corrélées.</div>
+            </div>
+
+            <h3>5.2. Résultats du Modèle de Régression Logistique</h3>
+            <p>Le modèle a été entraîné sur un sous-échantillon d'entraînement (80%) puis évalué sur un sous-échantillon de test (20%). Voici les performances globales :</p>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Exactitude (Accuracy)</div>
+                    <div class="metric-value">63.2%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Précision</div>
+                    <div class="metric-value">45.9%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Rappel (Recall)</div>
+                    <div class="metric-value">64.3%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Score F1</div>
+                    <div class="metric-value">53.6%</div>
+                </div>
+            </div>
+
+            <p>Le <strong>rappel de 64.3%</strong> est particulièrement satisfaisant : il indique que le modèle parvient à identifier près des deux tiers des employés qui vont effectivement s'absenter, ce qui est l'objectif prioritaire en termes de prévention RH.</p>
+
+            <div class="img-container">
+                <img src="roc_curve.png" alt="Courbe ROC">
+                <div class="img-caption">Figure 5: Courbe ROC illustrant la capacité du modèle à discriminer les deux classes (AUC = 0.68). Un score de 0.68 prouve que le modèle est nettement meilleur que l'aléatoire (0.50).</div>
+            </div>
+
+            <h3>5.3. Interprétation des Odds Ratios (Facteurs de risque)</h3>
+            <p>L'avantage majeur de la régression logistique est l'interprétabilité de ses coefficients. Les <strong>Odds Ratios (OR)</strong> permettent de quantifier le sur-risque (si OR > 1) ou la protection (si OR < 1) liés à chaque variable.</p>
+
+            <table>
+                <tr>
+                    <th>Variable (Modalité)</th>
+                    <th>Coefficient</th>
+                    <th>Odds Ratio (OR)</th>
+                    <th>Interprétation de l'Impact</th>
+                </tr>
+                <tr>
+                    <td><strong>Maladie Chronique (Oui)</strong></td>
+                    <td>+0.509</td>
+                    <td><strong>1.66</strong></td>
+                    <td>Avoir une maladie chronique augmente de <strong>66%</strong> le risque d'absentéisme.</td>
+                </tr>
+                <tr>
+                    <td><strong>Santé Perçue (Score)</strong></td>
+                    <td>+0.443</td>
+                    <td><strong>1.55</strong></td>
+                    <td>Chaque palier de dégradation de la santé perçue augmente le risque de <strong>55%</strong>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Temps de Travail (Plein)</strong></td>
+                    <td>+0.116</td>
+                    <td><strong>1.12</strong></td>
+                    <td>Le travail à temps plein augmente très légèrement le risque (+12%) par rapport au temps partiel.</td>
+                </tr>
+                <tr>
+                    <td><strong>Sexe (Homme)</strong></td>
+                    <td>-0.233</td>
+                    <td><strong>0.79</strong></td>
+                    <td>Être un homme réduit le risque d'environ <strong>21%</strong> (toutes choses égales par ailleurs).</td>
+                </tr>
+                <tr>
+                    <td><strong>Âge (60+)</strong></td>
+                    <td>-0.620</td>
+                    <td><strong>0.53</strong></td>
+                    <td>Fait intéressant : les seniors de 60+ ans s'absentent nettement moins (risque réduit de <strong>47%</strong>) que la tranche des plus jeunes.</td>
+                </tr>
+            </table>
+
+            <p><strong>Conclusion Analytique :</strong> L'âge avancé n'est pas le premier facteur d'absentéisme, bien au contraire, il apparaît protecteur. Le véritable cœur du problème réside dans <strong>l'état de santé intrinsèque de l'employé (maladies chroniques et santé perçue)</strong>, confirmant ainsi les hypothèses soulevées dans notre revue de littérature initiale.</p>
+        </section>
+
+    </div>
+</body>
+</html>
